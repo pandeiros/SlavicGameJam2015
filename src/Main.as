@@ -1,27 +1,41 @@
 package
 {
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import net.flashpunk.Engine;
+	import net.flashpunk.FP;
+	import net.flashpunk.debug.Console;
+	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
+	import net.flashpunk.debug.Console;
+	import flash.system.System;
 	
-	/**
-	 * ...
-	 * @author The team with a guy with a beard.
-	 */
-	public class Main extends Sprite 
+	public class Main extends Engine
 	{
-		
-		public function Main() 
+		public function Main()
 		{
-			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);
+			super(1024, 768, 60, false);
+			//FP.world = new MyWorld;
 		}
 		
-		private function init(e:Event = null):void 
+		override public function init():void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-			// entry point
+			trace("FlashPunk has started successfully!");
+			FP.console.enable();
+			FP.console.visible = false;
+			FP.log("Yo!");		
 		}
 		
+		override public function update():void
+		{
+			if (Input.pressed(Key.F1))
+			{
+				FP.console.visible = !FP.console.visible;				
+			}
+			if (Input.check(Key.ESCAPE))
+			{
+				System.exit(0);
+			}
+
+			super.update();
+		}
 	}
-	
 }
