@@ -22,6 +22,8 @@ package
 			var b:PhysRect = new PhysRect(0, 200, 400, 10);
 			b.isStatic = true;
 			add(b);
+			
+			add(player);
 		}
 
 		override public function render():void
@@ -54,6 +56,8 @@ package
 
 			FP.screen.color = FP.colorLerp(FP.screen.color, 0x55B0FF, FP.elapsed * 5);
 		}
+		
+		var player:Player = new Player();
 
 	}
 
