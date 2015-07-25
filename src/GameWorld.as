@@ -5,7 +5,7 @@ package
 	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	import punk.fx.effects.AdjustFX;
+	import punk.fx.effects.FX;
 	import punk.fx.effects.PixelateFX;
 	import punk.fx.graphics.FXImage;
 
@@ -16,7 +16,7 @@ package
 	public class GameWorld extends World
 	{
 
-		var player : Player = new Player();
+		public var player : Player = new Player();
 
 		public function GameWorld()
 		{
@@ -34,7 +34,6 @@ package
 		override public function render():void
 		{
 			super.render();
-			var a:AdjustFX = new AdjustFX(100, 100, 50, 50);
 			if (Input.check(Key.H))
 			{
 				var o:Array = new Array();
