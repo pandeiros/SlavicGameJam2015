@@ -15,7 +15,6 @@ package
 	 */
 	public class GameWorld extends World
 	{
-
 		public var player : Player = new Player();
 
 		public function GameWorld()
@@ -24,7 +23,7 @@ package
 
 			var a:PhysRect = new PhysRect(50, 50, 10, 10);
 			add(a);
-			var b:PhysRect = new PhysRect(0, 200, 400, 10);
+			var b:PhysRect = new PhysRect(0, 500, 400, 10);
 			b.isStatic = true;
 			add(b);
 

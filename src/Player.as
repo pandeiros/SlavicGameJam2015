@@ -1,15 +1,10 @@
 package
 {
-	import com.greensock.plugins.DropShadowFilterPlugin;
 	import flash.filters.DropShadowFilter;
 	import net.flashpunk.FP;
-	import net.flashpunk.graphics.Spritemap;
+	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	import punk.fx.effects.AdjustFX;
-	import punk.fx.effects.FilterFX;
-	import punk.fx.effects.GlowFX;
-	import punk.fx.graphics.FXImage;
 	import punk.fx.graphics.FXSpritemap;
 
 	/**
@@ -21,25 +16,32 @@ package
 		private var spritePlayer:FXSpritemap = new FXSpritemap(Assets.PLAYER, 200, 200);
 		private const playerSpeed:int = 5;
 
-		public var filter : DropShadowFilter = new DropShadowFilter(10, 45, 0, 1, 0, 0, 1, 1);
+		private const crouchSpeed:int = 2;
+
+		private var isCrouching:Boolean = false;
+		private var isFacingRight:Boolean = true;
+		private var currentSpeed:int = 0;
+
+		public var filter:DropShadowFilter = new DropShadowFilter(10, 45, 0, 1, 0, 0, 1, 1);
 
 		public function Player()
 		{
 			Input.define("JUMP", Key.UP);
 			Input.define("LEFT", Key.LEFT);
 			Input.define("RIGHT", Key.RIGHT);
-			Input.define("CROUCH", Key.DOWN);
+			Input.define("CROUCH", Key.CONTROL);
 
-			x = 200;
+			x = 100;
 			y = 100;
 
-			width = 200;
-			height = 200;
+			type = "player";
+			setHitbox(200, 200, 100, 100);
 
-			spritePlayer.add("RUN_RIGHT", [0, 1, 2, 3], 8, true);
-			spritePlayer.add("RUN_LEFT", [4, 5, 6, 7], 8, true);
+			spritePlayer.add("RUN", [0, 1, 2, 3], 8, true);
+			//spritePlayer.add("RUN_LEFT", [4, 5, 6, 7], 8, true);
 			graphic = spritePlayer;
 			spritePlayer.effects.add(filter);
+			(graphic as Image).centerOrigin();
 
 			canJump = true;
 		}
@@ -51,17 +53,51 @@ package
 			if (Input.check("JUMP"))
 				jump();
 
+			resetJump();
+
+			currentSpeed = playerSpeed;
+
+			if (Input.check("CROUCH"))
+			{
+				currentSpeed = crouchSpeed;
+				isCrouching = true;
+			}
+
+			if (Input.released("CROUCH"))
+			{
+				isCrouching = false;
+			}
+
 			if (Input.check("LEFT"))
-				x -= playerSpeed;
+			{
+				x -= currentSpeed;
+				isFacingRight = false;
+			}
 			if (Input.check("RIGHT"))
-				x += playerSpeed;
+			{
+				x += currentSpeed;
+				isFacingRight = true;
+			}
 
 			filter.angle += 5;
-
-			spritePlayer.play("RUN_RIGHT");
-
-			// Camera follow player
 			FP.camera = location;
+
+			updateAnim();
+		}
+
+		public function updateAnim():void
+		{
+			if (!isFacingRight)
+			{
+				(graphic as Image).scaleX = -1;
+			}
+			else
+			{
+				(graphic as Image).scaleX = 1;
+			}
+
+			if (!isCrouching)
+				spritePlayer.play("RUN");
 		}
 	}
 

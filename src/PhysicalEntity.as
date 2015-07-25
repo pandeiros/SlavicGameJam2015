@@ -11,7 +11,7 @@ package
 	public class PhysicalEntity extends Entity
 	{
 		public var velocity:Point = new Point(0, 0);
-		public var gravity:Point = new Point(0, 0.098);
+		public var gravity:Point = new Point(0, 0.300);
 		public var friction:Point = new Point(0.98, 0.98);
 		public var bounciness:Point = new Point(0.2, 0.2);
 		public var direction:int = 1;
@@ -174,7 +174,6 @@ package
 		{
 			if (canJump)
 			{
-				//weee.play();
 				velocity.y = -jumpSpeed;
 				if (touchesWall())
 					velocity.x = -direction * speed;
