@@ -5,6 +5,9 @@ package
 	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import punk.fx.effects.AdjustFX;
+	import punk.fx.effects.PixelateFX;
+	import punk.fx.graphics.FXImage;
 
 	/**
 	 * ...
@@ -12,6 +15,8 @@ package
 	 */
 	public class GameWorld extends World
 	{
+
+		var player : Player = new Player();
 
 		public function GameWorld()
 		{
@@ -22,13 +27,14 @@ package
 			var b:PhysRect = new PhysRect(0, 200, 400, 10);
 			b.isStatic = true;
 			add(b);
-			
+
 			add(player);
 		}
 
 		override public function render():void
 		{
 			super.render();
+			var a:AdjustFX = new AdjustFX(100, 100, 50, 50);
 			if (Input.check(Key.H))
 			{
 				var o:Array = new Array();
@@ -56,8 +62,6 @@ package
 
 			FP.screen.color = FP.colorLerp(FP.screen.color, 0x55B0FF, FP.elapsed * 5);
 		}
-		
-		var player:Player = new Player();
 
 	}
 
