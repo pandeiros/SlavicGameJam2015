@@ -20,6 +20,12 @@ package
 		
 		[Embed(source='../assets/gfx/pokoj_3.png')]
 		public static const ROOM_3:Class;
+		
+		[Embed(source='../assets/gfx/drzwi_bok.png')]
+		public static const DOOR_SIDE:Class;
+		
+		[Embed(source='../assets/gfx/drzwi_otwarte.png')]
+		public static const DOOR_OPEN:Class;
 
 	}
 

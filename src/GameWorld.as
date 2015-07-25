@@ -19,6 +19,7 @@ package
 		public var rooms : Array = new Array();
 		public var doors : Array = new Array();
 		public var floors : Array = new Array();
+		private var doorsOpen : int = 0;
 		public static var globalScale : int = 4;
 
 		public function GameWorld()
@@ -28,16 +29,25 @@ package
 			for (var i:int = 0; i < Rooms.roomCount; i++)
 			{
 				var floor:PhysicalEntity = new PhysicalEntity(Rooms.positions[i], FP.height);
-				Rooms.setFloor(floor);
+				Rooms.setFloor(floor, i);
+				floors.push(floor);
 				add(floor);
 			}
 			
-			for (var k:int = 0; k < Rooms.roomCount; k++)
+			for (i = 0; i < Rooms.roomCount; i++)
 			{
 				var room : Entity = new Entity();
-				Rooms.setRoom(room, k);
+				Rooms.setRoom(room, i);
 				rooms.push(room);
 				add(room);
+			}
+			
+			for (i = 0; i < Rooms.roomCount; i++)
+			{
+				var door : Entity = new Entity();
+				Rooms.setDoor(door, i);
+				doors.push(door);
+				add(door);
 			}
 			
 
@@ -67,8 +77,33 @@ package
 			}
 
 			FP.screen.color = FP.colorLerp(FP.screen.color, 0x000000, FP.elapsed * 5);
+			
+			checkCollision();
 		}
 
+		public function checkCollision():void
+		{
+			var door:Entity = player.collide("door", player.x - 10, player.y) as Entity;
+
+			if (door)
+			{
+				door.graphic = new FXImage(Assets.DOOR_OPEN);
+				(door.graphic as Image).scale = GameWorld.globalScale;
+				openDoor();
+				door.collidable = false;
+			}
+		}
+		
+		public function openDoor():void
+		{
+			doorsOpen++;
+			if (doorsOpen >= Rooms.roomCount)
+				return;
+			
+			rooms[doorsOpen].visible = true;
+			floors[doorsOpen].visible = true;
+			doors[doorsOpen].visible = true;
+		}
 	}
 
 }

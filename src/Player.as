@@ -2,10 +2,12 @@ package
 {
 	import flash.filters.DropShadowFilter;
 	import net.flashpunk.FP;
+	import net.flashpunk.*;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import punk.fx.graphics.FXSpritemap;
+	import punk.fx.graphics.*;
 
 	/**
 	 * ...
@@ -96,9 +98,15 @@ package
 			FP.camera.x = location.x - FP.width / 2;
 			FP.camera.y = location.y - FP.height / 2;
 
+			checkCollision();
 			updateAnim();
 		}
 
+		public function checkCollision():void
+		{
+			
+		}
+		
 		public function updateAnim():void
 		{
 			if (!canJump)
@@ -128,8 +136,6 @@ package
 			{
 				(graphic as Image).scaleX = 1;
 			}
-
 		}
 	}
-
 }
