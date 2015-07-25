@@ -18,17 +18,29 @@ package
 		public var player : Player = new Player();
 		public var rooms : Array = new Array();
 		public var doors : Array = new Array();
-		public var floor : PhysicalEntity;
+		public var floors : Array = new Array();
 		public static var globalScale : int = 4;
 
 		public function GameWorld()
 		{
 			super();
 
-			floor = new PhysicalEntity(0, FP.height);
-			Rooms.setFloor(floor);
+			for (var i:int = 0; i < Rooms.roomCount; i++)
+			{
+				var floor:PhysicalEntity = new PhysicalEntity(Rooms.positions[i], FP.height);
+				Rooms.setFloor(floor);
+				add(floor);
+			}
+			
+			for (var k:int = 0; k < Rooms.roomCount; k++)
+			{
+				var room : Entity = new Entity();
+				Rooms.setRoom(room, k);
+				rooms.push(room);
+				add(room);
+			}
+			
 
-			add(floor);
 			add(player);
 		}
 
@@ -53,12 +65,8 @@ package
 			{
 				FP.world = new GameWorld;
 			}
-			//if (Input.pressed(Key.ANY))
-			//{
-				//FP.screen.color = Math.random() < 0.5 ? 0xFFFFFF : 0x000000;
-			//}
 
-			FP.screen.color = FP.colorLerp(FP.screen.color, 0x55B0FF, FP.elapsed * 5);
+			FP.screen.color = FP.colorLerp(FP.screen.color, 0x000000, FP.elapsed * 5);
 		}
 
 	}

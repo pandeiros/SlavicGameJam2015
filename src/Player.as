@@ -40,12 +40,11 @@ package
 			jumpSpeed = 6;
 			
 
-			spritePlayer.add("IDLE", [0, 1], 1, true);
+			spritePlayer.add("IDLE", [0, 0, 0, 0, 0, 13], 4, true);
 			spritePlayer.add("JUMP", [2, 3], 3, true);
 			spritePlayer.add("RUN", [4, 5, 0], 8, true);
 			spritePlayer.add("CROUCH", [10], 8, true);
 			spritePlayer.add("SNEAK", [11, 12, 10], 4, true);
-			//spritePlayer.add("RUN_LEFT", [4, 5, 6, 7], 8, true);
 			graphic = spritePlayer;
 			//spritePlayer.effects.add(filter);
 			(graphic as Image).centerOrigin();
