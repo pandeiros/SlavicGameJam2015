@@ -13,13 +13,14 @@ package
 	 */
 	public class Player extends PhysicalEntity
 	{
-		private var spritePlayer:FXSpritemap = new FXSpritemap(Assets.PLAYER, 200, 200);
+		private var spritePlayer:FXSpritemap = new FXSpritemap(Assets.PLAYER, 14, 18);
 		private const playerSpeed:int = 5;
 
 		private const crouchSpeed:int = 2;
 
 		private var isCrouching:Boolean = false;
 		private var isFacingRight:Boolean = true;
+		private var isMoving:Boolean = false;
 		private var currentSpeed:int = 0;
 
 		public var filter:DropShadowFilter = new DropShadowFilter(10, 45, 0, 1, 0, 0, 1, 1);
@@ -31,18 +32,26 @@ package
 			Input.define("RIGHT", Key.RIGHT);
 			Input.define("CROUCH", Key.CONTROL);
 
-			x = 100;
-			y = 100;
+			x = 200;
+			y = 500;
 
-			type = "player";
-			setHitbox(200, 200, 100, 100);
+			var scale:int = GameWorld.globalScale;
+			setHitbox(14 * scale, 18 * scale, 7 * scale	, 9 * scale);
+			jumpSpeed = 6;
+			
 
-			spritePlayer.add("RUN", [0, 1, 2, 3], 8, true);
+			spritePlayer.add("IDLE", [0, 1], 1, true);
+			spritePlayer.add("JUMP", [2, 3], 3, true);
+			spritePlayer.add("RUN", [4, 5, 0], 8, true);
+			spritePlayer.add("CROUCH", [10], 8, true);
+			spritePlayer.add("SNEAK", [11, 12, 10], 4, true);
 			//spritePlayer.add("RUN_LEFT", [4, 5, 6, 7], 8, true);
 			graphic = spritePlayer;
-			spritePlayer.effects.add(filter);
+			//spritePlayer.effects.add(filter);
 			(graphic as Image).centerOrigin();
-
+			(graphic as Image).scale = GameWorld.globalScale;
+			
+			spritePlayer.play("IDLE");
 			canJump = true;
 		}
 
@@ -68,18 +77,23 @@ package
 				isCrouching = false;
 			}
 
+			isMoving = true;
 			if (Input.check("LEFT"))
 			{
 				x -= currentSpeed;
 				isFacingRight = false;
 			}
-			if (Input.check("RIGHT"))
+			else if (Input.check("RIGHT"))
 			{
 				x += currentSpeed;
 				isFacingRight = true;
 			}
+			else
+			{
+				isMoving = false;
+			}
 
-			filter.angle += 5;
+			filter.angle += 1;
 			FP.camera.x = location.x - FP.width / 2;
 			FP.camera.y = location.y - FP.height / 2;
 
@@ -88,6 +102,25 @@ package
 
 		public function updateAnim():void
 		{
+			if (!canJump)
+			{
+				spritePlayer.play("JUMP");
+			}
+			else if (!isCrouching)
+			{
+				if (isMoving)
+					spritePlayer.play("RUN");
+				else
+					spritePlayer.play("IDLE");
+			}
+			else
+			{
+				if (isMoving)
+					spritePlayer.play("SNEAK");
+				else
+					spritePlayer.play("CROUCH");
+			}
+			
 			if (!isFacingRight)
 			{
 				(graphic as Image).scaleX = -1;
@@ -97,8 +130,6 @@ package
 				(graphic as Image).scaleX = 1;
 			}
 
-			if (!isCrouching)
-				spritePlayer.play("RUN");
 		}
 	}
 

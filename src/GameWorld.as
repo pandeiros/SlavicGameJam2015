@@ -16,17 +16,19 @@ package
 	public class GameWorld extends World
 	{
 		public var player : Player = new Player();
+		public var rooms : Array = new Array();
+		public var doors : Array = new Array();
+		public var floor : PhysicalEntity;
+		public static var globalScale : int = 4;
 
 		public function GameWorld()
 		{
 			super();
 
-			var a:PhysRect = new PhysRect(50, 50, 10, 10);
-			add(a);
-			var b:PhysRect = new PhysRect(0, 500, 400, 10);
-			b.isStatic = true;
-			add(b);
+			floor = new PhysicalEntity(0, FP.height);
+			Rooms.setFloor(floor);
 
+			add(floor);
 			add(player);
 		}
 
@@ -42,8 +44,6 @@ package
 					Draw.hitbox(e, true, 0xFF0000, 0.5);
 				}
 			}
-
-			Draw.text("FPS: " + Math.round(Math.random() * 10 + 55), FP.width - 75, 2.5);
 		}
 
 		override public function update():void
