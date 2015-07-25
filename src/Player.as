@@ -80,7 +80,8 @@ package
 			}
 
 			filter.angle += 5;
-			FP.camera = location;
+			FP.camera.x = location.x - FP.width / 2;
+			FP.camera.y = location.y - FP.height / 2;
 
 			updateAnim();
 		}

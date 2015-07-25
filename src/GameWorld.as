@@ -53,10 +53,10 @@ package
 			{
 				FP.world = new GameWorld;
 			}
-			if (Input.pressed(Key.ANY))
-			{
-				FP.screen.color = Math.random() < 0.5 ? 0xFFFFFF : 0x000000;
-			}
+			//if (Input.pressed(Key.ANY))
+			//{
+				//FP.screen.color = Math.random() < 0.5 ? 0xFFFFFF : 0x000000;
+			//}
 
 			FP.screen.color = FP.colorLerp(FP.screen.color, 0x55B0FF, FP.elapsed * 5);
 		}
