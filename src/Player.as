@@ -33,6 +33,8 @@ package
 			Input.define("LEFT", Key.LEFT);
 			Input.define("RIGHT", Key.RIGHT);
 			Input.define("CROUCH", Key.CONTROL);
+			Input.define("HID", Key.UP);
+			Input.define("REVEAL", Key.DOWN);
 
 			x = 200;
 			y = 500;
@@ -59,11 +61,6 @@ package
 		override public function update():void
 		{
 			super.update();
-
-			if (Input.check("JUMP"))
-				jump();
-
-			resetJump();
 
 			currentSpeed = playerSpeed;
 
@@ -130,11 +127,11 @@ package
 			
 			if (!isFacingRight)
 			{
-				(graphic as Image).scaleX = -1;
+				(graphic as Image).flipped = true;
 			}
 			else
 			{
-				(graphic as Image).scaleX = 1;
+				(graphic as Image).flipped = false;
 			}
 		}
 	}

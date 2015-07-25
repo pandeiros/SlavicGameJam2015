@@ -10,9 +10,12 @@ package
 	 */
 	public class Rooms 
 	{
-		public static const roomCount:int = 3;
-		public static var positions:Array = new Array(0, (142 + 3) * GameWorld.globalScale, 
-			(142 + 3) * GameWorld.globalScale * 2, (142 + 3) * GameWorld.globalScale * 3);
+		public static const roomCount:int = 4;
+		public static var positions:Array = new Array(0, 
+			(142 + 3) * GameWorld.globalScale, 
+			(142 + 3) * GameWorld.globalScale * 2, 
+			(142 + 3) * GameWorld.globalScale * 3,
+			(142 + 3) * GameWorld.globalScale * 4);
 			
 		public static function setFloor(floor:PhysicalEntity, index:int):void
 		{
@@ -29,11 +32,14 @@ package
 		
 		public static function setRoom(room:Entity, index:int):void
 		{
+			
 			if (index == 0)
-				room.graphic = new FXImage(Assets.ROOM_1);
+				room.graphic = new FXImage(Assets.ROOM_JUSTIN);
 			if (index == 1)
-				room.graphic = new FXImage(Assets.ROOM_2);
+				room.graphic = new FXImage(Assets.ROOM_1);
 			if (index == 2)
+				room.graphic = new FXImage(Assets.ROOM_2);
+			if (index == 3)
 				room.graphic = new FXImage(Assets.ROOM_3);
 				
 			if (index > 0)
