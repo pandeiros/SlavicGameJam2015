@@ -42,7 +42,7 @@ package
 			}
 			else if (isChasing)
 			{
-				if (Math.random() > 0.98)
+				if (Math.random() > 0.95)
 					(FP.world as GameWorld).sfxBark.play();
 
 				if (isRunnningLeft)

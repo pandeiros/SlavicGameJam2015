@@ -33,6 +33,11 @@ package
 
 		public var doorShadow:Door;
 
+		public var texBubbleMom:Entity = new Entity();
+		public var texBubbleJustin:Entity = new Entity();
+		public var momHead:Entity = new Entity();
+		public var dialogue:int = 0;
+		
 		public var isCaughtByMom:Boolean = false;
 		public var actionPerformed:Boolean = false;
 
@@ -67,14 +72,31 @@ package
 				doors.push(door);
 				add(door);
 			}
-
+			
 			doorShadow = new Door(Rooms.doorPos.x, Rooms.doorPos.y);
 			doorShadow.visible = false;
 			dog.visible = false;
+			
+			texBubbleMom.graphic = new FXImage(Assets.TEXT);
+			texBubbleMom.visible = false;
+			texBubbleJustin.graphic = new FXImage(Assets.TEXT);
+			texBubbleJustin.visible = false;
+			momHead.graphic = new FXImage(Assets.MOM_HEAD);
+			momHead.visible = false;
+
+			(texBubbleMom.graphic as Image).scale = GameWorld.globalScale * 2;
+			(texBubbleMom.graphic as Image).flipped = true;
+			(texBubbleJustin.graphic as Image).scale = GameWorld.globalScale;
+			(momHead.graphic as Image).scale = GameWorld.globalScale * 2;
+			(momHead.graphic as Image).flipped = true;
+			
 			add(doorShadow);
 			add(player);
 			add(dog);
 			add(banana);
+			add(texBubbleMom);
+			add(texBubbleJustin);
+			add(momHead);
 		}
 
 		override public function render():void
@@ -97,6 +119,39 @@ package
 			if (Input.check(Key.F5))
 			{
 				FP.world = new GameWorld;
+			}
+			
+			if (isCaughtByMom)
+			{
+				texBubbleMom.x = FP.camera.x + FP.width - 400;
+				texBubbleMom.y = FP.camera.y + 10;
+				texBubbleJustin.x = FP.camera.x + FP.halfWidth + 20;
+				texBubbleJustin.y = FP.camera.y + FP.halfHeight - 100;
+				momHead.x = FP.camera.x + FP.width - 100;
+				momHead.y = FP.camera.y + 80;
+				momHead.visible = true;
+				
+				if (Input.pressed(Key.ENTER))
+					dialogue++;
+				
+				switch (dialogue) 
+				{
+					case 0:
+						texBubbleMom.visible = true;
+						break;
+					case 1:
+						texBubbleMom.visible = false;
+						texBubbleJustin.visible = true;
+						break;
+					case 2:
+						texBubbleMom.visible = true;
+						texBubbleJustin.visible = false;
+						break;
+					case 3:
+						FP.world = new GameWorld;
+					default:
+				}
+				return;
 			}
 
 			if (Input.check("HID") && !doorShadow.isHidden)

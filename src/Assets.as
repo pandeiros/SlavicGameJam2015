@@ -15,6 +15,12 @@ package
 
 		[Embed(source='../assets/gfx/banan.png')]
 		public static const BANANA:Class;
+		
+		[Embed(source='../assets/gfx/dymek.png')]
+		public static const TEXT:Class;
+		
+		[Embed(source='../assets/gfx/mama_glowa.png')]
+		public static const MOM_HEAD:Class;
 
 		// --- GFX ROOMS ---
 		[Embed(source='../assets/gfx/podloga.png')]
