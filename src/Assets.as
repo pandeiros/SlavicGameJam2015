@@ -26,7 +26,7 @@ package
 		[Embed(source='../assets/gfx/podloga.png')]
 		public static const FLOOR:Class;
 
-		[Embed(source='../assets/gfx/pokoj_1_back.png')]
+		[Embed(source='../assets/gfx/pokoj_4.png')]
 		public static const ROOM_JUSTIN:Class;
 
 		[Embed(source='../assets/gfx/pokoj_1_back.png')]
@@ -37,6 +37,9 @@ package
 
 		[Embed(source='../assets/gfx/pokoj_3.png')]
 		public static const ROOM_3:Class;
+		
+		[Embed(source='../assets/gfx/kuchnia.png')]
+		public static const KITCHEN:Class;
 
 		[Embed(source='../assets/gfx/drzwi_bok.png')]
 		public static const DOOR_SIDE:Class;

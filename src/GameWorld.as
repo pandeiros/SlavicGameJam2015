@@ -40,6 +40,7 @@ package
 		
 		public var isCaughtByMom:Boolean = false;
 		public var actionPerformed:Boolean = false;
+		public var win:Boolean = false;
 
 		public function GameWorld()
 		{
@@ -119,6 +120,19 @@ package
 			if (Input.check(Key.F5))
 			{
 				FP.world = new GameWorld;
+			}
+			
+			if (win)
+			{
+				texBubbleJustin.x = FP.camera.x + FP.halfWidth + 20;
+				texBubbleJustin.y = FP.camera.y + FP.halfHeight - 100;
+				texBubbleJustin.visible = true;
+				
+				// DALTON Text "I've done it!"
+				
+				if (Input.pressed(Key.ENTER))
+					FP.world = new GameWorld;
+				return;
 			}
 			
 			if (isCaughtByMom)
@@ -262,6 +276,9 @@ package
 				caughtByMom();
 				sfxDoorOpen.play();
 			}
+			
+			if (doorsOpen == 5)
+				win = true;
 		}
 
 		private function caughtByMom():void
