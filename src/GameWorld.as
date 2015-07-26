@@ -68,7 +68,8 @@ package
 			}
 			
 			doorShadow = new Door(Rooms.doorPos.x, Rooms.doorPos.y);
-			doorShadow.visible = true;
+			doorShadow.visible = false;
+			dog.visible = false;
 			
 			add(doorShadow);
 			add(player);
@@ -182,6 +183,7 @@ package
 				dog.spriteDog.play("HAPPY");
 				dog.isChasing = false;
 				caughtByMom();
+				sfxBark.play();
 			}
 		}
 		
@@ -191,10 +193,8 @@ package
 			if (doorsOpen >= Rooms.roomCount)
 				return;
 				
-			if (doorsOpen == 1)
-				doorShadow.visible = true;
-			
 			doorShadow.visible = true;
+			dog.visible = true;
 			rooms[doorsOpen].visible = true;
 			floors[doorsOpen].visible = true;
 			doors[doorsOpen].visible = true;

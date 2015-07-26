@@ -28,7 +28,6 @@ package
 				-7 * GameWorld.globalScale, 0);
 			(graphic as Image).scale = GameWorld.globalScale;
 			type = "door_shadow";
-			visible = false;
 		}
 		
 		override public function update():void
