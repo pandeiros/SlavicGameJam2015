@@ -11,8 +11,8 @@ package
 	 */
 	public class Rooms
 	{
-		public static const roomCount:int = 4;
-		public static var positions:Array = new Array(0, (142 + 3) * GameWorld.globalScale, (142 + 3) * GameWorld.globalScale * 2, (142 + 3) * GameWorld.globalScale * 3, (142 + 3) * GameWorld.globalScale * 4);
+		public static const roomCount:int = 5;
+		public static var positions:Array = new Array(0, (142 + 3) * GameWorld.globalScale, (142 + 3) * GameWorld.globalScale * 2, (142 + 3) * GameWorld.globalScale * 3, (142 + 3) * GameWorld.globalScale * 4, (142 + 3) * GameWorld.globalScale * 5);
 
 		public static const dogPos:Point = new Point((142 + 3) * GameWorld.globalScale * 2 - 150, FP.height - 15 * GameWorld.globalScale);
 
@@ -44,6 +44,8 @@ package
 				room.graphic = new FXImage(Assets.ROOM_2);
 			if (index == 3)
 				room.graphic = new FXImage(Assets.ROOM_3);
+			if (index == 4)
+				room.graphic = new FXImage(Assets.KITCHEN);
 
 			if (index > 0)
 				room.visible = false;
