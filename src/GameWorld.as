@@ -18,6 +18,7 @@ package
 		public var player : Player = new Player();
 		public var dog : Dog = new Dog();
 		public var banana : Banana = new Banana();
+		public var mom : Mom = new Mom();
 
 		public var rooms : Array = new Array();
 		public var doors : Array = new Array();
@@ -30,9 +31,13 @@ package
 		public var sfxDoorOpenSilent:Sfx = new Sfx(Assets.SFX_DOOR_OPEN_SILENT);
 		public var sfxEkhm:Sfx = new Sfx(Assets.SFX_EKHM);
 		public var sfxBark:Sfx = new Sfx(Assets.SFX_BARK);
+		public var sfxAlert:Sfx = new Sfx(Assets.SFX_ALERT);
+		public var sfxCensor:Sfx = new Sfx(Assets.SFX_CENSOR);
+
 
 		public var doorShadow:Door;
-
+		
+		public var freedom : Entity = new Entity();
 		public var texBubbleMom:Entity = new Entity();
 		public var texBubbleJustin:Entity = new Entity();
 		public var momHead:Entity = new Entity();
@@ -48,7 +53,7 @@ package
 		public var text4:Text = new Text("Have you done\nyour homework?", 0, 0, { "size":18, "color":"0x000000" });
 		public var text5:Text = new Text("Naaah....", 0, 0, { "size":18, "color":"0x000000" } );
 		public var text6:Text = new Text("Nothing.", 0, 0, { "size":18, "color":"0x000000" });
-		public var text7:Text = new Text("I've done it!", 0, 0, { "size":18, "color":"0x000000" } );
+		public var text7:Text = new Text("I've done it!", 0, 0, { "size":20, "color":"0x000000" } );
 		
 		public var textRandom:int = 0;
 
@@ -94,21 +99,26 @@ package
 			texBubbleJustin.visible = false;
 			momHead.graphic = new FXImage(Assets.MOM_HEAD);
 			momHead.visible = false;
+			freedom.graphic = new FXImage(Assets.FREEDOM);
+			freedom.visible = false;
 
 			(texBubbleMom.graphic as Image).scale = GameWorld.globalScale * 2;
 			(texBubbleMom.graphic as Image).flipped = true;
 			(texBubbleJustin.graphic as Image).scale = GameWorld.globalScale;
 			(momHead.graphic as Image).scale = GameWorld.globalScale * 2;
 			(momHead.graphic as Image).flipped = true;
+			(freedom.graphic as Image).scale = GameWorld.globalScale;
 			
 			add(doorShadow);
 			add(player);
 			add(dog);
 			add(banana);
+			add(mom);
 			texBubbleMom.layer = 10;
 			add(texBubbleMom);
 			add(texBubbleJustin);
 			add(momHead);
+			add(freedom);
 			
 			text1.visible = text2.visible = text3.visible = text4.visible = text5.visible = text6.visible = text7.visible = false;
 			
@@ -148,8 +158,16 @@ package
 				texBubbleJustin.x = FP.camera.x + FP.halfWidth + 20;
 				texBubbleJustin.y = FP.camera.y + FP.halfHeight - 100;
 				texBubbleJustin.visible = true;
+				(texBubbleJustin.graphic as Image).scale = globalScale * 1.5
 				
-				// DALTON Text "I've done it!"
+				text7.x = FP.camera.x + FP.halfWidth + 50;
+				text7.y = FP.camera.y + FP.halfHeight - 85;
+				
+				text7.visible = true;
+				
+				freedom.x = FP.camera.x + 228;
+				freedom.y = FP.camera.y + 100;
+				freedom.visible = true;
 				
 				if (Input.pressed(Key.ENTER))
 					FP.world = new GameWorld;
@@ -206,6 +224,7 @@ package
 						texBubbleJustin.visible = false;
 						break;
 					case 3:
+						sfxCensor.play();
 						FP.world = new GameWorld;
 					default:
 				}
@@ -272,6 +291,8 @@ package
 				(door.graphic as Image).scale = GameWorld.globalScale;
 				openDoor();
 				door.collidable = false;
+				if (door == doors[Rooms.roomCount - 1])
+					win = true;
 			}
 
 			var ds:Door = player.collide("door_shadow", player.x, player.y) as Door;
@@ -327,12 +348,13 @@ package
 				sfxDoorOpen.play();
 			}
 			
-			if (doorsOpen == 5)
-				win = true;
+			//if (doorsOpen == 5)
+				//win = true;
 		}
 
 		private function caughtByMom():void
 		{
+			sfxAlert.play();
 			if (Math.random() > 0.5)
 				textRandom = 1;
 			else

@@ -21,6 +21,12 @@ package
 		
 		[Embed(source='../assets/gfx/mama_glowa.png')]
 		public static const MOM_HEAD:Class;
+		
+		[Embed(source='../assets/gfx/mama.png')]
+		public static const MOM:Class;
+		
+		[Embed(source='../assets/gfx/freedom.png')]
+		public static const FREEDOM:Class;
 
 		// --- GFX ROOMS ---
 		[Embed(source='../assets/gfx/podloga.png')]
@@ -68,6 +74,15 @@ package
 
 		[Embed(source = '../assets/sounds/bark.mp3')]
 		public static const SFX_BARK:Class;
+		
+		[Embed(source = '../assets/sounds/theme.mp3')]
+		public static const SFX_THEME:Class;
+		
+		[Embed(source = '../assets/sounds/alert.mp3')]
+		public static const SFX_ALERT:Class;
+		
+		[Embed(source = '../assets/sounds/censor.mp3')]
+		public static const SFX_CENSOR:Class;
 	}
 
 }

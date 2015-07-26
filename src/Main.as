@@ -7,13 +7,18 @@ package
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.debug.Console;
 	import flash.system.System;
+	import net.flashpunk.*;
 
 	public class Main extends Engine
 	{
+		public var sfxTheme:Sfx = new Sfx(Assets.SFX_THEME);
+		
 		public function Main()
 		{
 			super(1024, 768, 60, false);
 			FP.world = new GameWorld;
+			sfxTheme.play(0.75);
+			sfxTheme.loop();
 		}
 
 		override public function init():void

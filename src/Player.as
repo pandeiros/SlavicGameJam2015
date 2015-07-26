@@ -40,7 +40,7 @@ package
 			Input.define("ACTION", Key.SPACE);
 
 			x = 200;
-			y = 500;
+			y = 700;
 
 			var scale:int = GameWorld.globalScale;
 			setHitbox(14 * scale, 18 * scale, 7 * scale, 9 * scale);
@@ -98,8 +98,11 @@ package
 			}
 
 			filter.angle += 1;
-			FP.camera.x = location.x - FP.width / 2;
-			FP.camera.y = location.y - FP.height / 2;
+			if (!(FP.world as GameWorld).win)
+			{
+				FP.camera.x = location.x - FP.width / 2;	
+				FP.camera.y = location.y - FP.height / 2;
+			}
 
 			checkCollision();
 			if (!isSlipped)
