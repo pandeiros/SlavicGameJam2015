@@ -108,6 +108,7 @@ package
 			{
 				var img:Image = graphic as Image;
 				img.angle += 10;
+				x -= 5;
 			}
 		}
 

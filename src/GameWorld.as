@@ -214,6 +214,12 @@ package
 
 		public function checkCollision():void
 		{
+			var banana:Banana = player.collide("banana", player.x, player.y) as Banana;
+			if (banana)
+			{
+				player.isSlipped = true;
+			}
+
 			var door:Entity = player.collide("door", player.x - 10, player.y) as Entity;
 
 			if (door)

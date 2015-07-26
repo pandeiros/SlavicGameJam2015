@@ -1,6 +1,7 @@
 package
 {
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
 	import punk.fx.graphics.FXImage;
 
 	/**
@@ -18,17 +19,10 @@ package
 			img.scale = GameWorld.globalScale;
 			//img.centerOrigin();
 
-			setHitbox(11 * GameWorld.globalScale, 6 * GameWorld.globalScale,
-				0, 0);
+			setHitbox(11 * GameWorld.globalScale, 6 * GameWorld.globalScale, 0, 0);
+			type = "banana";
 		}
 
-		override public function onCollision(other : Entity): void
-		{
-			var player : Player = other as Player;
-			if (!player) return;
-
-			player.isSlipped = true;
-		}
 	}
 
 }
