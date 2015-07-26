@@ -17,7 +17,7 @@ package
 		public var direction:int = 1;
 		public var speed:Number = 3;
 		public var jumpSpeed:Number = 5;
-		
+
 		private var onGround:Boolean = false;
 		private var initialized:Boolean = false;
 
@@ -53,7 +53,7 @@ package
 		{
 			location.x = x;
 			location.y = y;
-			
+
 			super.update();
 			if (!initialized) {
 				initialized = true;
@@ -76,7 +76,7 @@ package
 
 		public function onGameInit() : void
 		{
-		
+
 		}
 
 		private function resetStates():void

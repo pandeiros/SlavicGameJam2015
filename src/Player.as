@@ -1,13 +1,13 @@
 package
 {
 	import flash.filters.DropShadowFilter;
-	import net.flashpunk.FP;
 	import net.flashpunk.*;
+	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	import punk.fx.graphics.FXSpritemap;
 	import punk.fx.graphics.*;
+	import punk.fx.graphics.FXSpritemap;
 
 	/**
 	 * ...
@@ -24,6 +24,7 @@ package
 		private var isFacingRight:Boolean = true;
 		private var isMoving:Boolean = false;
 		public var isHidden:Boolean = false;
+		public var isSlipped:Boolean = false;
 		private var currentSpeed:int = 0;
 
 		public var filter:DropShadowFilter = new DropShadowFilter(10, 45, 0, 1, 0, 0, 1, 1);
@@ -42,9 +43,8 @@ package
 			y = 500;
 
 			var scale:int = GameWorld.globalScale;
-			setHitbox(14 * scale, 18 * scale, 7 * scale	, 9 * scale);
+			setHitbox(14 * scale, 18 * scale, 7 * scale, 9 * scale);
 			jumpSpeed = 6;
-			
 
 			spritePlayer.add("IDLE", [0, 0, 0, 0, 0, 13], 4, true);
 			spritePlayer.add("JUMP", [2, 3], 3, true);
@@ -55,7 +55,7 @@ package
 			//spritePlayer.effects.add(filter);
 			(graphic as Image).centerOrigin();
 			(graphic as Image).scale = GameWorld.globalScale;
-			
+
 			spritePlayer.play("IDLE");
 			canJump = true;
 		}
@@ -78,7 +78,7 @@ package
 			}
 
 			isMoving = true;
-			if (isHidden)
+			if (isHidden || isSlipped)
 				isMoving = false;
 			else if (Input.check("LEFT"))
 			{
@@ -100,14 +100,20 @@ package
 			FP.camera.y = location.y - FP.height / 2;
 
 			checkCollision();
-			updateAnim();
+			if (!isSlipped)
+				updateAnim();
+			else
+			{
+				var img:Image = graphic as Image;
+				img.angle += 10;
+			}
 		}
 
 		public function checkCollision():void
 		{
-			
+
 		}
-		
+
 		public function updateAnim():void
 		{
 			if (!canJump)
@@ -128,7 +134,7 @@ package
 				else
 					spritePlayer.play("CROUCH");
 			}
-			
+
 			if (!isFacingRight)
 			{
 				(graphic as Image).flipped = true;

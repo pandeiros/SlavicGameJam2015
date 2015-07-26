@@ -1,10 +1,9 @@
-package 
+package
 {
-	import com.greensock.loading.data.ImageLoaderVars;
 	import net.flashpunk.*;
-	import punk.fx.graphics.*;
 	import net.flashpunk.graphics.*;
-	
+	import punk.fx.graphics.*;
+
 	/**
 	 * ...
 	 * @author The team with a guy with a beard.
@@ -17,8 +16,8 @@ package
 		public var isRunnningLeft:Boolean = false;
 		private var dogSpeed:int = 7;
 		public var hadChased:Boolean = false;
-		
-		public function Dog() 
+
+		public function Dog()
 		{
 			width = 24 * GameWorld.globalScale;
 			height = 15 * GameWorld.globalScale;
@@ -27,14 +26,14 @@ package
 			spriteDog.add("HAPPY", [0], 1, true);
 			graphic = spriteDog;
 			spriteDog.play("IDLE");
-			
+
 			x = Rooms.dogPos.x;
 			y = Rooms.dogPos.y;
-			
+
 			(graphic as Image).scale = GameWorld.globalScale;
 			type = "dog";
 		}
-		
+
 		override public function update():void
 		{
 			if (isChasing)
@@ -48,6 +47,11 @@ package
 				{
 					x += dogSpeed;
 					(graphic as Image).flipped = false;
+				}
+
+				if (!hadChased)
+				{
+					FP.world.add(new CrazyText("!", x + 20, y - 25, 0.05, 64));
 				}
 			}
 		}
