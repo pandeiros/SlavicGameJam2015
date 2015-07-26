@@ -41,6 +41,16 @@ package
 		public var isCaughtByMom:Boolean = false;
 		public var actionPerformed:Boolean = false;
 		public var win:Boolean = false;
+		
+		public var text1:Text = new Text("What's that noise??", 0, 0, { "size":18, "color":"0x000000" } );
+		public var text2:Text = new Text("Get back to your room!", 0, 0, { "size":18, "color":"0x000000" } );
+		public var text3:Text = new Text("Just, do it!", 0, 0, { "size":18, "color":"0x000000" });
+		public var text4:Text = new Text("Have you done\nyour homework?", 0, 0, { "size":18, "color":"0x000000" });
+		public var text5:Text = new Text("Naaah....", 0, 0, { "size":18, "color":"0x000000" } );
+		public var text6:Text = new Text("Nothing.", 0, 0, { "size":18, "color":"0x000000" });
+		public var text7:Text = new Text("I've done it!", 0, 0, { "size":18, "color":"0x000000" } );
+		
+		public var textRandom:int = 0;
 
 		public function GameWorld()
 		{
@@ -95,9 +105,20 @@ package
 			add(player);
 			add(dog);
 			add(banana);
+			texBubbleMom.layer = 10;
 			add(texBubbleMom);
 			add(texBubbleJustin);
 			add(momHead);
+			
+			text1.visible = text2.visible = text3.visible = text4.visible = text5.visible = text6.visible = text7.visible = false;
+			
+			addGraphic(text1, -100);
+			addGraphic(text2, -100);
+			addGraphic(text3, -100);
+			addGraphic(text4, -100);
+			addGraphic(text5, -100);
+			addGraphic(text6, -100);
+			addGraphic(text7, -100);
 		}
 
 		override public function render():void
@@ -145,19 +166,42 @@ package
 				momHead.y = FP.camera.y + 80;
 				momHead.visible = true;
 				
+				text5.x = text6.x = text7.x = FP.camera.x + FP.halfWidth + 50;
+				text5.y = text6.y = text7.y = FP.camera.y + FP.halfHeight - 85;
+				
+				text1.x = text2.x = text3.x = text4.x = FP.camera.x + FP.width - 380;
+				text1.y = text2.y = text3.y = text4.y = FP.camera.y + 50;
+				
 				if (Input.pressed(Key.ENTER))
 					dialogue++;
 				
 				switch (dialogue) 
 				{
 					case 0:
+						if (textRandom == 0)
+							text1.visible = true;
+						else
+							text4.visible = true;
+							
 						texBubbleMom.visible = true;
 						break;
 					case 1:
+						if (textRandom == 0)
+							text6.visible = true;
+						else
+							text5.visible = true;
+							
+						text1.visible = text4.visible = false;
 						texBubbleMom.visible = false;
 						texBubbleJustin.visible = true;
 						break;
 					case 2:
+						if (textRandom == 0)
+							text2.visible = true;
+						else
+							text3.visible = true;
+							
+						text6.visible = text5.visible = false;
 						texBubbleMom.visible = true;
 						texBubbleJustin.visible = false;
 						break;
@@ -289,6 +333,11 @@ package
 
 		private function caughtByMom():void
 		{
+			if (Math.random() > 0.5)
+				textRandom = 1;
+			else
+				textRandom = 0;
+				
 			isCaughtByMom = true;
 		}
 	}
