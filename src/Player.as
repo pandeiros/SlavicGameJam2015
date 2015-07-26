@@ -78,7 +78,9 @@ package
 			}
 
 			isMoving = true;
-			if (isHidden || isSlipped)
+			if ((FP.world as GameWorld).isCaughtByMom)
+				isMoving = false;
+			else if (isHidden || isSlipped)
 				isMoving = false;
 			else if (Input.check("LEFT"))
 			{
