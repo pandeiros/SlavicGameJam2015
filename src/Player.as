@@ -20,9 +20,10 @@ package
 
 		private const crouchSpeed:int = 2;
 
-		private var isCrouching:Boolean = false;
+		public var isCrouching:Boolean = false;
 		private var isFacingRight:Boolean = true;
 		private var isMoving:Boolean = false;
+		public var isHidden:Boolean = false;
 		private var currentSpeed:int = 0;
 
 		public var filter:DropShadowFilter = new DropShadowFilter(10, 45, 0, 1, 0, 0, 1, 1);
@@ -35,6 +36,7 @@ package
 			Input.define("CROUCH", Key.CONTROL);
 			Input.define("HID", Key.UP);
 			Input.define("REVEAL", Key.DOWN);
+			Input.define("ACTION", Key.SPACE);
 
 			x = 200;
 			y = 500;
@@ -76,7 +78,9 @@ package
 			}
 
 			isMoving = true;
-			if (Input.check("LEFT"))
+			if (isHidden)
+				isMoving = false;
+			else if (Input.check("LEFT"))
 			{
 				x -= currentSpeed;
 				isFacingRight = false;

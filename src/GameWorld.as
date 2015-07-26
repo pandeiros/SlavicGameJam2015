@@ -16,6 +16,8 @@ package
 	public class GameWorld extends World
 	{
 		public var player : Player = new Player();
+		public var dog : Dog = new Dog();
+		
 		public var rooms : Array = new Array();
 		public var doors : Array = new Array();
 		public var floors : Array = new Array();
@@ -24,12 +26,21 @@ package
 		
 		public var sfxDoorOpen:Sfx = new Sfx(Assets.SFX_DOOR_OPEN);
 		public var sfxWhoosh:Sfx = new Sfx(Assets.SFX_WHOOSH);
+		public var sfxDoorOpenSilent:Sfx = new Sfx(Assets.SFX_DOOR_OPEN_SILENT);
+		public var sfxEkhm:Sfx = new Sfx(Assets.SFX_EKHM);
+		public var sfxBark:Sfx = new Sfx(Assets.SFX_BARK);
 		
 		public var doorShadow:Door;
+		
+		public var isCaughtByMom:Boolean = false;
+		public var actionPerformed:Boolean = false; 
 
 		public function GameWorld()
 		{
 			super();
+			
+			sfxDoorOpen.volume = 1.0;
+			sfxDoorOpenSilent.volume = 0.5;
 
 			for (var i:int = 0; i < Rooms.roomCount; i++)
 			{
@@ -55,12 +66,12 @@ package
 				add(door);
 			}
 			
-			doorShadow = new Door((142 * 1.5 + 3) * GameWorld.globalScale,
-				FP.height - 27 * GameWorld.globalScale);
+			doorShadow = new Door(Rooms.doorPos.x, Rooms.doorPos.y);
 			doorShadow.visible = true;
 			
 			add(doorShadow);
 			add(player);
+			add(dog);
 		}
 
 		override public function render():void
@@ -85,13 +96,14 @@ package
 				FP.world = new GameWorld;
 			}
 			
-			if (Input.check("HID"))
+			if (Input.check("HID") && !doorShadow.isHidden)
 			{
-				if (doorShadow.isHidingEnabled)
+				if (doorShadow.isHidingEnabled && player.canJump)
 				{
 					doorShadow.hide(true);
 					player.visible = false;
 					sfxWhoosh.play();
+					player.isHidden = true;
 				}
 				else
 					player.jump();
@@ -99,11 +111,23 @@ package
 			
 			if (Input.check("REVEAL") && doorShadow.isHidden)
 			{
-					doorShadow.hide(false);
-					player.visible = true;
-					sfxWhoosh.play();
+				doorShadow.hide(false);
+				player.visible = true;
+				player.isHidden = false;
+				sfxWhoosh.play();
 			}
-
+			
+			if (Input.check("ACTION"))
+			{
+				if (!actionPerformed)
+				{
+					actionPerformed = true;
+					sfxEkhm.play();	
+				}
+			}
+			else
+				actionPerformed = false;
+			
 			player.resetJump();
 
 			FP.screen.color = FP.colorLerp(FP.screen.color, 0x000000, FP.elapsed * 5);
@@ -123,13 +147,38 @@ package
 				door.collidable = false;
 			}
 			
-		
 			var ds:Door = player.collide("door_shadow", player.x, player.y) as Door;
 		
 			if (ds)
 				doorShadow.isHidingEnabled = true;
 			else
 				doorShadow.isHidingEnabled = false;
+				
+			if (Math.abs(player.x - dog.x) < dog.reach && !dog.hadChased &&
+				!player.isCrouching && !player.isHidden)
+			{
+				dog.isChasing = true;
+				dog.spriteDog.play("RUN");
+			}
+			
+			if (dog.isChasing && !dog.hadChased)
+			{
+				if (Math.random() > 0.98)
+					sfxBark.play();
+					
+				if (player.x - dog.x < 0)
+					dog.isRunnningLeft = true;
+				else
+					dog.isRunnningLeft = false;
+			}
+			
+			var doggy:Dog = player.collide("dog", player.x, player.y) as Dog;
+			if (doggy)
+			{
+				dog.hadChased = true;
+				dog.spriteDog.play("HAPPY");
+				dog.isChasing = false;
+			}
 		}
 		
 		public function openDoor():void
@@ -137,12 +186,29 @@ package
 			doorsOpen++;
 			if (doorsOpen >= Rooms.roomCount)
 				return;
+				
+			if (doorsOpen == 1)
+				doorShadow.visible = true;
 			
 			doorShadow.visible = true;
 			rooms[doorsOpen].visible = true;
 			floors[doorsOpen].visible = true;
 			doors[doorsOpen].visible = true;
-			sfxDoorOpen.play();
+			
+			if (player.isCrouching)
+				sfxDoorOpenSilent.play();
+			else
+			{
+				caughtByMom();
+				sfxDoorOpen.play();
+			}
+			
+			sfxEkhm.play();
+		}
+		
+		private function caughtByMom():void 
+		{
+			isCaughtByMom = true;
 		}
 	}
 

@@ -1,5 +1,6 @@
 package 
 {
+	import flash.geom.Point;
 	import net.flashpunk.*;
 	import net.flashpunk.graphics.*;
 	import punk.fx.graphics.*;
@@ -16,6 +17,12 @@ package
 			(142 + 3) * GameWorld.globalScale * 2, 
 			(142 + 3) * GameWorld.globalScale * 3,
 			(142 + 3) * GameWorld.globalScale * 4);
+		
+		public static const dogPos:Point = new Point(
+			(142 + 3) * GameWorld.globalScale * 2 - 150, FP.height - 15 * GameWorld.globalScale);
+			
+		public static const doorPos:Point = new Point(
+			(142 * 1.5 + 3) * GameWorld.globalScale, FP.height - 27 * GameWorld.globalScale);
 			
 		public static function setFloor(floor:PhysicalEntity, index:int):void
 		{

@@ -6,14 +6,18 @@ package
 	 */
 	public class Assets
 	{
-		// --- GFX ---
+		// --- GFX ENTITIES ---
 		[Embed(source='../assets/gfx/justin.png')]
 		public static const PLAYER:Class;
 		
+		[Embed(source='../assets/gfx/piesel.png')]
+		public static const DOG:Class;
+		
+		// --- GFX ROOMS ---
 		[Embed(source='../assets/gfx/podloga.png')]
 		public static const FLOOR:Class;
 		
-		[Embed(source='../assets/gfx/pokoj_1.png')]
+		[Embed(source='../assets/gfx/pokoj_1_back.png')]
 		public static const ROOM_JUSTIN:Class;
 		
 		[Embed(source='../assets/gfx/pokoj_1_back.png')]
@@ -44,7 +48,14 @@ package
 		[Embed(source = '../assets/sounds/whoosh.mp3')]
 		public static const SFX_WHOOSH:Class;
 
-
+		[Embed(source = '../assets/sounds/door_open_silent.mp3')]
+		public static const SFX_DOOR_OPEN_SILENT:Class;
+		
+		[Embed(source = '../assets/sounds/ekhm1.mp3')]
+		public static const SFX_EKHM:Class;
+		
+		[Embed(source = '../assets/sounds/bark.mp3')]
+		public static const SFX_BARK:Class;
 	}
 
 }
