@@ -54,7 +54,7 @@ package
 		[Embed(source = '../assets/sounds/door_open_silent.mp3')]
 		public static const SFX_DOOR_OPEN_SILENT:Class;
 
-		[Embed(source = '../assets/sounds/ekhm1.mp3')]
+		[Embed(source = '../assets/sounds/ekhm.mp3')]
 		public static const SFX_EKHM:Class;
 
 		[Embed(source = '../assets/sounds/bark.mp3')]
