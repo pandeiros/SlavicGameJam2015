@@ -105,7 +105,7 @@ package
 			(texBubbleJustin.graphic as Image).scale = GameWorld.globalScale;
 			(momHead.graphic as Image).scale = GameWorld.globalScale * 2;
 			(momHead.graphic as Image).flipped = true;
-			(freedom.graphic as Image).scale = GameWorld.globalScale;
+			(freedom.graphic as Image).scale = GameWorld.globalScale * 1.5;
 			
 			add(doorShadow);
 			add(player);
@@ -153,18 +153,18 @@ package
 
 			if (win)
 			{
-				texBubbleJustin.x = FP.camera.x + FP.halfWidth + 20;
-				texBubbleJustin.y = FP.camera.y + FP.halfHeight - 100;
-				texBubbleJustin.visible = true;
-				(texBubbleJustin.graphic as Image).scale = globalScale * 1.5
+				//texBubbleJustin.x = FP.camera.x + FP.halfWidth + 20;
+				//texBubbleJustin.y = FP.camera.y + FP.halfHeight - 100;
+				//texBubbleJustin.visible = true;
+				//(texBubbleJustin.graphic as Image).scale = globalScale * 1.5
+				//
+				//text7.x = FP.camera.x + FP.halfWidth + 50;
+				//text7.y = FP.camera.y + FP.halfHeight - 85;
+				//
+				//text7.visible = true;
 				
-				text7.x = FP.camera.x + FP.halfWidth + 50;
-				text7.y = FP.camera.y + FP.halfHeight - 85;
-				
-				text7.visible = true;
-				
-				freedom.x = FP.camera.x + 228;
-				freedom.y = FP.camera.y + 100;
+				freedom.x = FP.camera.x + 86;
+				freedom.y = FP.camera.y + 25;
 				freedom.visible = true;
 				
 				if (Input.pressed(Key.ENTER))
