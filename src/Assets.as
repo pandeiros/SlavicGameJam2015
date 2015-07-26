@@ -9,16 +9,18 @@ package
 		// --- GFX ENTITIES ---
 		[Embed(source='../assets/gfx/justin.png')]
 		public static const PLAYER:Class;
+		[Embed(source='../assets/gfx/fall.png')]
+		public static const FALL:Class;
 
 		[Embed(source='../assets/gfx/piesel.png')]
 		public static const DOG:Class;
 
 		[Embed(source='../assets/gfx/banan.png')]
 		public static const BANANA:Class;
-		
+
 		[Embed(source='../assets/gfx/dymek.png')]
 		public static const TEXT:Class;
-		
+
 		[Embed(source='../assets/gfx/mama_glowa.png')]
 		public static const MOM_HEAD:Class;
 

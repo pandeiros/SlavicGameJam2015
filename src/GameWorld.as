@@ -5,9 +5,8 @@ package
 	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	import punk.fx.effects.FX;
-	import punk.fx.effects.PixelateFX;
 	import punk.fx.graphics.FXImage;
+	import punk.fx.graphics.FXSpritemap;
 
 	/**
 	 * ...
@@ -15,15 +14,15 @@ package
 	 */
 	public class GameWorld extends World
 	{
-		public var player : Player = new Player();
-		public var dog : Dog = new Dog();
-		public var banana : Banana = new Banana();
+		public var player:Player = new Player();
+		public var dog:Dog = new Dog();
+		public var banana:Banana = new Banana();
 
-		public var rooms : Array = new Array();
-		public var doors : Array = new Array();
-		public var floors : Array = new Array();
-		private var doorsOpen : int = 0;
-		public static var globalScale : int = 4;
+		public var rooms:Array = new Array();
+		public var doors:Array = new Array();
+		public var floors:Array = new Array();
+		private var doorsOpen:int = 0;
+		public static var globalScale:int = 4;
 
 		public var sfxDoorOpen:Sfx = new Sfx(Assets.SFX_DOOR_OPEN);
 		public var sfxWhoosh:Sfx = new Sfx(Assets.SFX_WHOOSH);
@@ -37,7 +36,7 @@ package
 		public var texBubbleJustin:Entity = new Entity();
 		public var momHead:Entity = new Entity();
 		public var dialogue:int = 0;
-		
+
 		public var isCaughtByMom:Boolean = false;
 		public var actionPerformed:Boolean = false;
 
@@ -59,7 +58,7 @@ package
 
 			for (i = 0; i < Rooms.roomCount; i++)
 			{
-				var room : Entity = new Entity();
+				var room:Entity = new Entity();
 				Rooms.setRoom(room, i);
 				rooms.push(room);
 				add(room);
@@ -67,16 +66,16 @@ package
 
 			for (i = 0; i < Rooms.roomCount; i++)
 			{
-				var door : Entity = new Entity();
+				var door:Entity = new Entity();
 				Rooms.setDoor(door, i);
 				doors.push(door);
 				add(door);
 			}
-			
+
 			doorShadow = new Door(Rooms.doorPos.x, Rooms.doorPos.y);
 			doorShadow.visible = false;
 			dog.visible = false;
-			
+
 			texBubbleMom.graphic = new FXImage(Assets.TEXT);
 			texBubbleMom.visible = false;
 			texBubbleJustin.graphic = new FXImage(Assets.TEXT);
@@ -89,7 +88,7 @@ package
 			(texBubbleJustin.graphic as Image).scale = GameWorld.globalScale;
 			(momHead.graphic as Image).scale = GameWorld.globalScale * 2;
 			(momHead.graphic as Image).flipped = true;
-			
+
 			add(doorShadow);
 			add(player);
 			add(dog);
@@ -120,7 +119,7 @@ package
 			{
 				FP.world = new GameWorld;
 			}
-			
+
 			if (isCaughtByMom)
 			{
 				texBubbleMom.x = FP.camera.x + FP.width - 400;
@@ -130,11 +129,11 @@ package
 				momHead.x = FP.camera.x + FP.width - 100;
 				momHead.y = FP.camera.y + 80;
 				momHead.visible = true;
-				
+
 				if (Input.pressed(Key.ENTER))
 					dialogue++;
-				
-				switch (dialogue) 
+
+				switch (dialogue)
 				{
 					case 0:
 						texBubbleMom.visible = true;
@@ -179,8 +178,8 @@ package
 			{
 				//if (!actionPerformed)
 				//{
-					//actionPerformed = true;
-					sfxEkhm.play();
+				//actionPerformed = true;
+				sfxEkhm.play();
 				//}
 				if (player.isHidden)
 				{
@@ -198,12 +197,31 @@ package
 			checkCollision();
 		}
 
+		var img:FXSpritemap;
+		var time:Number = 0;
+
 		public function checkCollision():void
 		{
 			var banana:Banana = player.collide("banana", player.x, player.y) as Banana;
-			if (banana)
+			if (banana && !player.isSlipped)
 			{
 				player.isSlipped = true;
+				img = new FXSpritemap(Assets.FALL, 22, 18);
+				player.visible = false;
+				addGraphic(img, 0, player.x, player.y);
+				img.centerOrigin();
+				img.scale = GameWorld.globalScale;
+				img.add("fall", [0, 1, 2], 8, false);
+				img.play("fall");
+			}
+			else if (player.isSlipped && time <= 0.75)
+			{
+				time += FP.elapsed;
+				img.x += 5;
+			}
+			else if (player.isSlipped)
+			{
+				caughtByMom();
 			}
 
 			var door:Entity = player.collide("door", player.x - 10, player.y) as Entity;
@@ -223,8 +241,7 @@ package
 			else
 				doorShadow.isHidingEnabled = false;
 
-			if (Math.abs(player.x - dog.x) < dog.reach && !dog.hadChased &&
-				!player.isCrouching && !player.isHidden)
+			if (Math.abs(player.x - dog.x) < dog.reach && !dog.hadChased && !player.isCrouching && !player.isHidden)
 			{
 				dog.isChasing = true;
 				dog.spriteDog.play("RUN");
@@ -260,6 +277,9 @@ package
 			rooms[doorsOpen].visible = true;
 			floors[doorsOpen].visible = true;
 			doors[doorsOpen].visible = true;
+
+			if (doorsOpen == 2)
+				banana.visible = true;
 
 			if (player.isCrouching)
 				sfxDoorOpenSilent.play();

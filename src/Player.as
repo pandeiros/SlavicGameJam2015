@@ -104,12 +104,6 @@ package
 			checkCollision();
 			if (!isSlipped)
 				updateAnim();
-			else
-			{
-				var img:Image = graphic as Image;
-				img.angle += 10;
-				x -= 5;
-			}
 		}
 
 		public function checkCollision():void

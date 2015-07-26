@@ -19,6 +19,7 @@ package
 			img.scale = GameWorld.globalScale;
 			//img.centerOrigin();
 
+			visible = false;
 			setHitbox(11 * GameWorld.globalScale, 6 * GameWorld.globalScale, 0, 0);
 			type = "banana";
 		}
